@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}User Profile{% endblock %}</title>
+
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+
+    <!-- main styles -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/085bce8105.js" crossorigin="anonymous"></script>
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+<div class="page-wrapper">
+    <header>
+        <a href="{% url 'profiles:user_list' %}" class="logo-link">
+            <i class="fa-solid fa-users logo"></i>
+        </a>
+        <nav class="navbar">
+            <ul class="menu">
+                <li>
+                    {# აქტიურია მხოლოდ users გვერდზე #}
+                    <i class="fa-solid fa-user {% if request.resolver_match.url_name == 'user_list' %}active{% endif %}"></i>
+                    <a href="{% url 'profiles:user_list' %}"
+                       class="menu-link {% if request.resolver_match.url_name == 'user_list' %}active{% endif %}">Users</a>
+                </li>
+
+                {% if request.user.is_authenticated and request.user.profile %}
+                    <li>
+                        <i class="fa-solid fa-id-badge"></i>
+                        <a href="{% url 'profiles:profile_detail' request.user.profile.pk %}"
+                           class="menu-link">Profile</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <i class="fa-solid fa-chart-line"></i>
+                    <a href="#" class="menu-link">Dashboard</a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-gear"></i>
+                    <a href="#" class="menu-link">Settings</a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-bell"></i>
+                    <a href="#" class="menu-link">Notifications</a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-circle-question"></i>
+                    <a href="#" class="menu-link">Help</a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <a href="#" class="menu-link">Log out</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        {% block content %}
+            <!-- content -->
+        {% endblock %}
+    </div>
+</div>
+</body>
+</html>

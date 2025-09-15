@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ profile.user.username }}{% endblock %}
+
+{% block content %}
+    <div class="profile-detail-container">
+        <section class="detail-cover-section">
+            <div class="detail-cover-box">
+                <img src="{{ profile.profile_cover.url }}" alt="Profile Cover" class="detail-profile-cover">
+                <button class="edit-cover-btn">
+                    <i class="fa-solid fa-camera"></i>
+                    Edit Cover Photo
+                </button>
+            </div>
+            <div class="detail-overlay">
+                <div>
+                    <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="detail-overlay-picture">
+                    <button class="edit-profile-btn">
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
+                </div>
+                <div class="detail-overlay_texts">
+                    <h3 class="detail-full-name">{{ profile.user.get_full_name }}</h3>
+                    <h5 class="detail-profession">{{ profile.profession }}</h5>
+                </div>
+            </div>
+            <div class="detail-buttons">
+                <button class="detail-message-btn">
+                    <img src="{% static 'images/message.svg' %}" alt="message" class="detail-message-icon">
+                </button>
+                <button class="detail-follow-btn">Follow</button>
+                <button class="detail-schelude-btn">Schedule a meeting</button>
+            </div>
+        </section>
+        <div class="profile-detail-footer">
+            {# aside #}
+            <aside class="detail-about">
+                <h2 class="about-title">About</h2>
+                <ul class="about-list">
+                    <li>
+                        <i class="fa-solid fa-user"></i>
+                        <span>{{ profile.gender }}</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-cake-candles"></i>
+                        <span>Born {{ profile.birth_date|date:"F j, Y" }}</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>{{ profile.user.email }}</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-phone"></i>
+                        <span>{{ profile.phone }}</span>
+                    </li>
+                </ul>
+            </aside>
+            {#posts#}
+            <div class="detail-posts">
+                <h2 class="posts-title">Posts</h2>
+                <div class="posts">
+                    {% for post in posts %}
+                        <div class="post-card">
+
+                            <div class="posts-header">
+                                <div class="posts-header-left">
+                                    <img src="{{ profile.profile_pic.url }}" alt="Profile Picture"
+                                         class="posts-profile-picture">
+                                    <div>
+                                        <h3 class="posts-full-name">{{ profile.user.get_full_name }}</h3>
+                                        <p class="posts-create-date">{{ post.created_at|timesince }} ago</p>
+                                    </div>
+                                </div>
+
+                                <span class="posts-header-right">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </span>
+                            </div>
+
+                            <div class="posts-footer">
+                                <img src="{{ post.image.url }}" alt="Post image" class="posts-cover">
+                                <p class="caption">{{ post.caption }}</p>
+                                <div class="heart-time">
+                                    <p>
+                                        <i class="fa-regular fa-heart"></i>
+                                        <span> {{ post.likes }}</span>
+                                    </p>
+                                    <p>
+                                        <i class="fa-regular fa-comment"></i>
+                                        <span>{{ post.comments }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
