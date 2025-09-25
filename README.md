@@ -1,7 +1,10 @@
 # Django User Profile Project
 
-This is a simple Django project that demonstrates how to create user profile pages using Django templates, template tags, and filters.  
-The project includes a list of users and individual profile pages showing additional user information like bio, birthdate, and profile picture.
+This is a simple Django project that demonstrates how to create user profile pages using Django templates, template
+tags, and filters.
+The project includes a list of users, individual profile pages showing additional user information like bio, birthdate,
+and profile picture,
+and management of user posts linked to profiles.
 
 ---
 
@@ -14,18 +17,20 @@ The project includes a list of users and individual profile pages showing additi
 
 ## Features
 
-- Display a list of registered users
-- View detailed user profile pages
-- Use Django template tags (`for`, `if`) to show dynamic content
-- Use Django template filters to format and truncate text
-- Extend Django's built-in User model with a related Profile model
-- Profile images and additional user data
+* Display a list of registered users
+* View detailed user profile pages
+* Use Django template tags (`for`, `if`) to show dynamic content
+* Use Django template filters to format and truncate text
+* Extend Django's built-in `User` model with a related `Profile` model
+* Manage user posts with a `Post` model linked to profiles
+* Profile images and additional user data
 
 ---
 
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/TAMUNA-CHKOIDZE/django-user-profile.git
    ```
@@ -35,6 +40,7 @@ The project includes a list of users and individual profile pages showing additi
    ```bash
    cd django-user-profile
    ```
+
 3. (Optional) Create and activate a virtual environment:
 
    ```bash
@@ -44,16 +50,19 @@ The project includes a list of users and individual profile pages showing additi
    # macOS/Linux
    source venv/bin/activate
    ```
+
 4. Install dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
+
 5. Run migrations:
 
    ```bash
    python manage.py migrate
    ```
+
 6. Start the development server:
 
    ```bash
@@ -66,14 +75,17 @@ The project includes a list of users and individual profile pages showing additi
 
 * Visit `http://127.0.0.1:8000/users/` to see the list of users.
 * Click on a user card to view their profile details.
-* Profiles display additional information.
+* Profiles display additional information including bio, birthdate, location, and posts.
 
 ---
 
 ## Notes
 
-* This project uses Django's built-in `User` model extended with a `Profile` model.
-* Make sure to add profile images in the admin panel or extend registration flow accordingly.
+* This project uses Django's built-in `User` model extended with a related `Profile` model to store additional user
+  information.
+* User-generated content is managed through a `Post` model linked to the profiles, allowing users to share posts with
+  images and captions.
+* Make sure to add profile images and cover photos in the admin panel or extend the registration flow accordingly.
 
 ---
 
@@ -86,5 +98,18 @@ This project is open source and free to use.
 ## Author
 
 Tamuna Chkoidze
+
+---
+
+```markdown
+## Future Improvements
+
+- Add user registration and authentication flows.
+- Implement editing functionality for user profiles and posts.
+- Add pagination for posts and user lists.
+- Enhance the UI/UX with better styling and responsive design.
+```
+
+
 
 

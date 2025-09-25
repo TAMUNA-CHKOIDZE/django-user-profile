@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
-from profiles.models import Profile
+from django.shortcuts import render, get_object_or_404, redirect
+from profiles.forms import PostForm
+from profiles.models import Profile, Post
 
 
 def profile_list(request):
@@ -13,7 +14,61 @@ def profile_list(request):
     return render(request, template_name='user_list.html', context={'page_obj': page_obj})
 
 
+from django.contrib import messages  # თუ გინდა შეტყობინება messages-ითაც
+
+
 def profile_detail(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
     posts = profile.posts.all()
-    return render(request, template_name='profile_detail.html', context={'profile': profile, 'posts': posts})
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.profile = profile
+            post.save()
+            return redirect('profiles:profile_detail', pk=pk)
+    else:
+        form = PostForm()
+
+    return render(request, 'profile_detail.html', {
+        'profile': profile,
+        'posts': posts,
+        'form': form,
+    })
+
+
+# delete_post ფუნქცია
+def delete_post(request, profile_pk, post_pk):
+    profile = get_object_or_404(Profile, pk=profile_pk)
+    post = get_object_or_404(Post, pk=post_pk, profile=profile)
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('profiles:profile_detail', pk=profile_pk)
+
+    return redirect('profiles:profile_detail', pk=profile_pk)
+
+
+# edit_post ფუნქცია
+def edit_post(request, profile_pk, post_pk):
+    profile = get_object_or_404(Profile, pk=profile_pk)
+    post = get_object_or_404(Post, pk=post_pk, profile=profile)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('profiles:profile_detail', pk=profile_pk)
+    else:
+        form = PostForm(instance=post)
+
+    posts = profile.posts.all()
+    return render(request, 'profile_detail.html', {
+        'profile': profile,
+        'posts': posts,
+        'form': form,
+        'edit_mode': True,
+        'editing_post': post,
+    })

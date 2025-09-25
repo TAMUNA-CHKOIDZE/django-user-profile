@@ -59,6 +59,39 @@
             {#posts#}
             <div class="detail-posts">
                 <h2 class="posts-title">Posts</h2>
+                <div class="form-box">
+                    <h4 class="form-box-title">Create Post</h4>
+                    {# ფორმა პოსტისთვის #}
+                    <form method="post" enctype="multipart/form-data" class="post-form">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+
+                        {% if editing_post %}
+                            <input type="hidden" name="post_id" value="{{ editing_post.id }}">
+                            <h4>Editing Post</h4>
+                        {% endif %}
+
+                        <div class="form-section">
+                            {{ form.caption.errors }}
+                            {{ form.caption }}
+                        </div>
+
+                        <label for="{{ form.image.id_for_label }}" class="image-upload-label">
+                            <div class="image-upload-box">
+                                <img src="{% static 'images/upload.svg' %}" alt="Upload Icon" class="upload-icon"/>
+                                <span>Add Photo</span>
+                            </div>
+                            {{ form.image.errors }}
+                            {{ form.image }}
+                        </label>
+
+                        <div class="form-buttons">
+                            <button type="button" class="cancel-btn" onclick="clearPostForm()">Cancel</button>
+                            <button type="submit" class="publish-btn">Publish</button>
+                        </div>
+                    </form>
+                </div>
+                {#პოსტი#}
                 <div class="posts">
                     {% for post in posts %}
                         <div class="post-card">
@@ -72,10 +105,23 @@
                                         <p class="posts-create-date">{{ post.created_at|timesince }} ago</p>
                                     </div>
                                 </div>
+                                {#Delete/Edit #}
+                                <div class="posts-header-right">
+                                    <button class="ellipsis-btn" onclick="toggleMenu(this)">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
 
-                                <span class="posts-header-right">
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </span>
+                                    <div class="post-menu" style="display: none;">
+                                        <form method="post" action="{% url 'profiles:delete_post' profile.pk post.pk %}"
+                                              onsubmit="return confirm('Are you sure?');">
+                                            {% csrf_token %}
+                                            <button type="submit" class="menu-item delete">Delete</button>
+                                        </form>
+                                        <a href="{% url 'profiles:edit_post' profile.pk post.pk %}"
+                                           class="menu-item edit">Edit</a>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div class="posts-footer">
@@ -95,7 +141,6 @@
                         </div>
                     {% endfor %}
                 </div>
-
             </div>
         </div>
     </div>
