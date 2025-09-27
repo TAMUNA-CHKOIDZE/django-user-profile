@@ -24,6 +24,7 @@ and management of user posts linked to profiles.
 * Extend Django's built-in `User` model with a related `Profile` model
 * Manage user posts with a `Post` model linked to profiles
 * Profile images and additional user data
+* **Create, update, and soft delete user posts**
 
 ---
 
@@ -76,6 +77,7 @@ and management of user posts linked to profiles.
 * Visit `http://127.0.0.1:8000/users/` to see the list of users.
 * Click on a user card to view their profile details.
 * Profiles display additional information including bio, birthdate, location, and posts.
+* Users can create new posts, edit existing posts, and soft delete posts (posts are hidden instead of permanently removed).
 
 ---
 
@@ -85,6 +87,7 @@ and management of user posts linked to profiles.
   information.
 * User-generated content is managed through a `Post` model linked to the profiles, allowing users to share posts with
   images and captions.
+* Soft delete is implemented for posts to prevent permanent data loss.
 * Make sure to add profile images and cover photos in the admin panel or extend the registration flow accordingly.
 
 ---
