@@ -33,6 +33,8 @@ class Post(models.Model):
     likes = models.PositiveIntegerField(default=0, verbose_name='Likes Count')
     comments = models.PositiveIntegerField(default=0, verbose_name='Comments Count')
 
+    is_deleted = models.BooleanField(default=False, verbose_name='Deleted')
+
     class Meta:
         ordering = ['-created_at']
         verbose_name = "Post"

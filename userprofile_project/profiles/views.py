@@ -21,7 +21,7 @@ from django.contrib import messages  # თუ გინდა შეტყობ
 
 def profile_detail(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
-    posts = profile.posts.all()
+    posts = profile.posts.filter(is_deleted=False)
 
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -47,7 +47,7 @@ def delete_post(request, profile_pk, post_pk):
     post = get_object_or_404(Post, pk=post_pk, profile=profile)
 
     if request.method == 'POST':
-        post.delete()
+        post.is_deleted = True
         return redirect('profiles:profile_detail', pk=profile_pk)
 
     return redirect('profiles:profile_detail', pk=profile_pk)

@@ -143,7 +143,9 @@
                             </div>
 
                             <div class="posts-footer">
-                                <img src="{{ post.image.url }}" alt="Post image" class="posts-cover">
+                                {% if post.image %}
+                                    <img src="{{ post.image.url }}" alt="Post image" class="posts-cover">
+                                {% endif %}
                                 <p class="caption">{{ post.caption }}</p>
                                 <div class="heart-time">
                                     <p>
