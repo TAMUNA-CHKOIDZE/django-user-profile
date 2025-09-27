@@ -1,6 +1,6 @@
 from django import forms
 
-from profiles.models import Post
+from profiles.models import Post, Profile
 
 
 class PostForm(forms.ModelForm):
@@ -24,3 +24,9 @@ class PostForm(forms.ModelForm):
         if not caption and not image:
             raise forms.ValidationError("Please provide text or upload an image.")
         return cleaned_data
+
+
+class CoverUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_cover']

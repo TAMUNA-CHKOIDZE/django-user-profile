@@ -6,13 +6,31 @@
 {% block content %}
     <div class="profile-detail-container">
         <section class="detail-cover-section">
+
             <div class="detail-cover-box">
-                <img src="{{ profile.profile_cover.url }}" alt="Profile Cover" class="detail-profile-cover">
-                <button class="edit-cover-btn">
+                <img src="{{ profile.profile_cover.url }}?v={{ profile.updated_at|date:'U' }}" alt="Profile Cover"
+                     class="detail-profile-cover">
+                <button class="edit-cover-btn" onclick="document.getElementById('cover-input').click();">
                     <i class="fa-solid fa-camera"></i>
                     Edit Cover Photo
                 </button>
+
+                <form method="post" enctype="multipart/form-data" action="{% url 'profiles:update_cover' profile.pk %}"
+                      class="cover-upload-form">
+                    {% csrf_token %}
+                    <input
+                            type="file"
+                            name="profile_cover"
+                            id="cover-input"
+                            accept="image/*"
+                            style="display: none;"
+                            onchange="if(this.files.length > 0) this.form.submit();"
+                    >
+                </form>
+
+
             </div>
+
             <div class="detail-overlay">
                 <div>
                     <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="detail-overlay-picture">
