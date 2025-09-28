@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
-from profiles.forms import PostForm, CoverUpdateForm
+from profiles.forms import PostForm, CoverUpdateForm, ProfilePictureUpdateForm
 from profiles.models import Profile, Post
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -84,6 +84,19 @@ def update_cover(request, pk):
     if form.is_valid():
         form.save()
         messages.success(request, "Cover photo updated!")
+    else:
+        messages.error(request, "Invalid file.")
+
+    return redirect('profiles:profile_detail', pk=pk)
+
+
+def update_profile_picture(request, pk):
+    profile = get_object_or_404(Profile, pk=pk)
+
+    form = ProfilePictureUpdateForm(request.POST, request.FILES, instance=profile)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Profile photo updated!")
     else:
         messages.error(request, "Invalid file.")
 

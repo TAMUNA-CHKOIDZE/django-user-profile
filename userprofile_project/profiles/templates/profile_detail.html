@@ -32,11 +32,25 @@
             </div>
 
             <div class="detail-overlay">
-                <div>
+                <div class="profile-pic-container">
                     <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="detail-overlay-picture">
-                    <button class="edit-profile-btn">
-                        <i class="fa-solid fa-camera"></i>
-                    </button>
+                    <form method="post" enctype="multipart/form-data"
+                          action="{% url 'profiles:update_profile_picture' profile.pk %}"
+                          class="profile-pic-upload-form">
+                        {% csrf_token %}
+                        <input
+                                type="file"
+                                name="profile_pic"
+                                id="profile-pic-input"
+                                accept="image/*"
+                                style="display: none;"
+                                onchange="if(this.files.length > 0) this.form.submit();"
+                        >
+                        <button type="button" class="edit-profile-btn"
+                                onclick="document.getElementById('profile-pic-input').click();">
+                            <i class="fa-solid fa-camera"></i>
+                        </button>
+                    </form>
                 </div>
                 <div class="detail-overlay_texts">
                     <h3 class="detail-full-name">{{ profile.user.get_full_name }}</h3>

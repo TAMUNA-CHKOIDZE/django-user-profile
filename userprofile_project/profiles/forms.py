@@ -30,3 +30,9 @@ class CoverUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['profile_cover']
+
+
+class ProfilePictureUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_pic']
