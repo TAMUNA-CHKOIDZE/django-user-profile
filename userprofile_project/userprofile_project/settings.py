@@ -13,7 +13,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Hosts
-ALLOWED_HOSTS = [config('RENDER_EXTERNAL_HOSTNAME', default='localhost')]
+ALLOWED_HOSTS = ['*']
 
 # Installed apps
 INSTALLED_APPS = [
@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # შენი აპები
     'profiles',
 ]
 
@@ -62,12 +61,10 @@ TEMPLATES = [
 # WSGI
 WSGI_APPLICATION = 'userprofile_project.wsgi.application'
 
-# Database (PostgreSQL via DATABASE_URL, fallback to SQLite)
+import dj_database_url
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-    )
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
 # Password validation
@@ -88,6 +85,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # For collectstatic on Render
 
+
 STATICFILES_DIRS = [
     BASE_DIR / 'static',  # For local development
 ]
@@ -101,3 +99,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# ✅ Deployment-specific security settings
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    DATABASES['default']['CONN_MAX_AGE'] = 600

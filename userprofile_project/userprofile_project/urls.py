@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('profiles.urls', namespace='profiles')),  # აქედან იწყება /users/
+    path('users/', include('profiles.urls', namespace='profiles')),
 ]
 
 if settings.DEBUG:
